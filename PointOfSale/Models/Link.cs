@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.Models
 {
+    /// <summary>
+    /// Represents hypermedia links
+    /// </summary>
     public class Link
     {
         public const string GetMethod = "GET";
+
         public const string PostMethod = "POST";
+
         public const string DeleteMethod = "DELETE";
 
         [JsonProperty(Order = -3)]
@@ -21,6 +26,7 @@ namespace PointOfSale.Models
         public string Method { get; set; }
 
         public string RouteName { get; set; }
+
         public object RouteValues { get; set; }
     }
 }

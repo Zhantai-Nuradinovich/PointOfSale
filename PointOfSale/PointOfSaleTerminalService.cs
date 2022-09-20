@@ -1,31 +1,32 @@
-﻿using PointOfSale.Data;
+﻿using PointOfSale.DataAccess.Interfaces;
+using PointOfSale.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace PointOfSale.Services
+namespace PointOfSale
 {
-    public class PointOfSaleTerminalService
+    public class PointOfSaleTerminalService : IPointOfSaleTerminalService
     {
-        private readonly DefaultRepository _repository;
+        private readonly IRepository  _repository;
         private int _purchaseId;
         public PointOfSaleTerminalService() { }
-        public PointOfSaleTerminalService(DefaultRepository repository) : this()
+        public PointOfSaleTerminalService(IRepository repository) : this()
         {
             _repository = repository;
         }
 
         public int StartShopping(int? purchaseId = null)
         {
-            _purchaseId = purchaseId ?? _repository.CreateNewPurchase();
+            _purchaseId = purchaseId ?? _repository.AddNewPurchase();
             return _purchaseId;
         }
 
         public void Scan(string productCode)
         {
-            if (string.IsNullOrWhiteSpace(productCode)) 
+            if (string.IsNullOrWhiteSpace(productCode))
+            {
                 throw new ArgumentNullException(nameof(productCode));
+            }
 
             _repository.AddProductToPurchase(productCode, _purchaseId);
         }
@@ -41,7 +42,7 @@ namespace PointOfSale.Services
             foreach (var selectedProductAndCount in selectedProductsGrouped)
             {
                 var selectedCount = selectedProductAndCount.Item2;
-                var productPrices = prices.Where(x => x.Product.Code == selectedProductAndCount.Key 
+                var productPrices = prices.Where(x => x.Product.Code == selectedProductAndCount.Key
                                                    && x.Amount <= selectedCount)
                                           .OrderByDescending(x => x.Amount);
 

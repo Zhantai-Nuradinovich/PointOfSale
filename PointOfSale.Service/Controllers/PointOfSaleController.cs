@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PointOfSale.Data;
+using PointOfSale.Interfaces;
 using PointOfSale.Models;
-using PointOfSale.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PointOfSale.Controllers
+namespace PointOfSale.Service.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class PointOfSaleController : ControllerBase
     {
-        private readonly PointOfSaleTerminalService _terminal;
-        public PointOfSaleController(PointOfSaleTerminalService terminal)
+        private readonly IPointOfSaleTerminalService _terminal;
+        public PointOfSaleController(IPointOfSaleTerminalService terminal)
         {
             _terminal = terminal;
         }

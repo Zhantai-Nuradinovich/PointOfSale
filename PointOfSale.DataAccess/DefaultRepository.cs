@@ -1,13 +1,15 @@
-﻿using System;
+﻿using PointOfSale.DataAccess.Interfaces;
+using PointOfSale.DataAccess.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace PointOfSale.Data
-{
-    public class DefaultRepository
+namespace PointOfSale.DataAccess
+{/// <summary>
+ /// Mocked repositories
+ /// </summary>
+    public class DefaultRepository : IRepository
     {
-        //mocked repositories
         private List<Product> _products;
         private List<Price> _prices;
         private List<Purchase> _purchases;
@@ -17,17 +19,18 @@ namespace PointOfSale.Data
             var purchase = GetPurchaseById(purchaseId);
             var product = GetProductByCode(productCode);
             if (product == null || purchase == null)
+            {
                 throw new ArgumentException("Product code or PurchaseId was incorrect. Please try again");
+            }
+
             purchase.Products.Add(product);
         }
-        public int CreateNewPurchase()
+        public int AddNewPurchase()
         {
             var purchases = GetPurchases();
-            var maxId = purchases.Any()
-                ? purchases.Max(x => x.Id)
-                : 1;
+            var maxId = purchases.Any() ? purchases.Max(x => x.Id) : 1;
+            var purchase = new Purchase() { Id = maxId + 1, Products = new List<Product>() };
 
-            var purchase = new Purchase() { Id = maxId + 1 , Products = new List<Product>()};
             purchases.Add(purchase);
             return purchase.Id;
         }

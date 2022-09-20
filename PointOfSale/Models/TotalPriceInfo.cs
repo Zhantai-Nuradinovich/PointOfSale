@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.Models
 {
+    /// <summary>
+    /// Represents response for total price of 1 purchase 
+    /// </summary>
     public class TotalPriceInfo : Link
     {
         public double TotalPrice { get; set; }

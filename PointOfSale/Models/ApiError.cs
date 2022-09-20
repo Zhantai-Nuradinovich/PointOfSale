@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.Models
 {
+    /// <summary>
+    /// Represents error information
+    /// </summary>
     public class ApiError
     {
+        public string Message { get; set; }
+
+        public string Detail { get; set; }
+
         public ApiError() { }
 
         public ApiError(string message) : this()
@@ -22,8 +29,5 @@ namespace PointOfSale.Models
                 .FirstOrDefault(x => x.Value.Errors.Any()).Value.Errors
                 .FirstOrDefault().ErrorMessage;
         }
-
-        public string Message { get; set; }
-        public string Detail { get; set; }
     }
 }

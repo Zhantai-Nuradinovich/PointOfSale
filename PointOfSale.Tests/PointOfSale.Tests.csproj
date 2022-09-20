@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PointOfSale.DataAccess\PointOfSale.DataAccess.csproj" />
     <ProjectReference Include="..\PointOfSale\PointOfSale.csproj" />
   </ItemGroup>
 

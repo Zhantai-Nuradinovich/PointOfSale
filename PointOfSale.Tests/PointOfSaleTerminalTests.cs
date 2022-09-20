@@ -1,5 +1,5 @@
-using PointOfSale.Data;
-using PointOfSale.Services;
+using PointOfSale.DataAccess;
+using PointOfSale.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -9,7 +9,7 @@ namespace PointOfSale.Tests
     public class PointOfSaleTerminalTests
     {
         private readonly PointOfSaleTerminalService _terminal;
-        private readonly DefaultRepository _repository;
+        private readonly IRepository _repository;
         public PointOfSaleTerminalTests()
         {
             _repository = new DefaultRepository();
@@ -17,49 +17,20 @@ namespace PointOfSale.Tests
             _terminal.StartShopping();
         }
 
-        [Fact]
-        public void CalculateTotal_ABCD_Returns7_25()
+        [Theory]
+        [InlineData(new string[] { "A", "B", "C", "D" }, 7.25)]
+        [InlineData(new string[] { "A", "B", "C", "D", "A", "B", "A" }, 13.25)]
+        [InlineData(new string[] { "C", "C", "C", "C", "C", "C", "C" }, 6)]
+        public void CalculateTotal_InitialRequirements_ReturnsCorrectResult (string[] products, double expectedResult)
         {
-            _terminal.Scan("A");
-            _terminal.Scan("B");
-            _terminal.Scan("C");
-            _terminal.Scan("D");
-            
-            double result = _terminal.CalculateTotal();
-
-            Assert.Equal(7.25, result);
-        }
-
-        [Fact]
-        public void CalculateTotal_ABCDABA_Returns13_75()
-        {
-            _terminal.Scan("A");
-            _terminal.Scan("B");
-            _terminal.Scan("C");
-            _terminal.Scan("D");
-            _terminal.Scan("A");
-            _terminal.Scan("B");
-            _terminal.Scan("A");
+            foreach (var product in products)
+            {
+                _terminal.Scan(product);
+            }
 
             double result = _terminal.CalculateTotal();
 
-            Assert.Equal(13.25, result);
-        }
-
-        [Fact]
-        public void CalculateTotal_CCCCCCC_Returns6()
-        {
-            _terminal.Scan("C");
-            _terminal.Scan("C");
-            _terminal.Scan("C");
-            _terminal.Scan("C");
-            _terminal.Scan("C");
-            _terminal.Scan("C");
-            _terminal.Scan("C");
-
-            double result = _terminal.CalculateTotal();
-
-            Assert.Equal(6, result);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]

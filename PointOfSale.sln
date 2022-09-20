@@ -3,9 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32630.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale", "PointOfSale\PointOfSale.csproj", "{7E2C7428-71D9-4125-86A0-2BF3A1CA9129}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfSale", "PointOfSale\PointOfSale.csproj", "{7E2C7428-71D9-4125-86A0-2BF3A1CA9129}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointOfSale.Tests", "PointOfSale.Tests\PointOfSale.Tests.csproj", "{2F13D539-B5E8-480E-9756-DD7C5092AC08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfSale.Tests", "PointOfSale.Tests\PointOfSale.Tests.csproj", "{2F13D539-B5E8-480E-9756-DD7C5092AC08}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{4C01EDD1-9E97-408E-82AB-3B6C89A00299}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{251259BD-9746-416C-A16D-70792B25F01D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{B2E1D46D-3A33-4323-903D-B5629163821E}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfSale.DataAccess", "PointOfSale.DataAccess\PointOfSale.DataAccess.csproj", "{E2650CCD-0717-4220-B70E-E2F3D4FC321C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfSale.Service", "PointOfSale.Service\PointOfSale.Service.csproj", "{5E320E72-2577-42F5-B2BA-9B2D5389D865}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +34,23 @@ Global
 		{2F13D539-B5E8-480E-9756-DD7C5092AC08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F13D539-B5E8-480E-9756-DD7C5092AC08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F13D539-B5E8-480E-9756-DD7C5092AC08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2650CCD-0717-4220-B70E-E2F3D4FC321C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2650CCD-0717-4220-B70E-E2F3D4FC321C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2650CCD-0717-4220-B70E-E2F3D4FC321C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2650CCD-0717-4220-B70E-E2F3D4FC321C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E320E72-2577-42F5-B2BA-9B2D5389D865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E320E72-2577-42F5-B2BA-9B2D5389D865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E320E72-2577-42F5-B2BA-9B2D5389D865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E320E72-2577-42F5-B2BA-9B2D5389D865}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7E2C7428-71D9-4125-86A0-2BF3A1CA9129} = {251259BD-9746-416C-A16D-70792B25F01D}
+		{2F13D539-B5E8-480E-9756-DD7C5092AC08} = {4C01EDD1-9E97-408E-82AB-3B6C89A00299}
+		{E2650CCD-0717-4220-B70E-E2F3D4FC321C} = {251259BD-9746-416C-A16D-70792B25F01D}
+		{5E320E72-2577-42F5-B2BA-9B2D5389D865} = {251259BD-9746-416C-A16D-70792B25F01D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AD351C2-6914-4AB3-AF3E-B51532E72C59}

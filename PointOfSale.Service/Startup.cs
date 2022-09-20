@@ -5,15 +5,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using PointOfSale.Data;
-using PointOfSale.Filters;
-using PointOfSale.Services;
+using PointOfSale.DataAccess;
+using PointOfSale.DataAccess.Interfaces;
+using PointOfSale.Interfaces;
+using PointOfSale.Service.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PointOfSale
+namespace PointOfSale.Service
 {
     public class Startup
     {
@@ -31,8 +32,8 @@ namespace PointOfSale
                 x.Filters.Add(typeof(JsonExceptionFilter));
             });
 
-            services.AddSingleton<DefaultRepository>();
-            services.AddScoped<PointOfSaleTerminalService>();
+            services.AddSingleton<IRepository,DefaultRepository>();
+            services.AddScoped<IPointOfSaleTerminalService, PointOfSaleTerminalService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

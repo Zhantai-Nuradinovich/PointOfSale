@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.Models
 {
+    /// <summary>
+    /// Represents response with a link to the next logical method and it's parameter - PurchaseId
+    /// </summary>
     public class PurchaseInfo : Link
     {
         public int PurchaseId { get; set; }
+
         public Link Scan { get; set; }
     }
 }
