@@ -28,7 +28,7 @@ namespace PointOfSale.DataAccess
         public int AddNewPurchase()
         {
             var purchases = GetPurchases();
-            var maxId = purchases.Any() ? purchases.Max(x => x.Id) : 1;
+            var maxId = purchases.Any() ? purchases.Max(x => x.Id) : 0;
             var purchase = new Purchase() { Id = maxId + 1, Products = new List<Product>() };
 
             purchases.Add(purchase);
