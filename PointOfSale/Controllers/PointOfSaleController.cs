@@ -1,0 +1,81 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using PointOfSale.Data;
+using PointOfSale.Models;
+using PointOfSale.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace PointOfSale.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PointOfSaleController : ControllerBase
+    {
+        private readonly PointOfSaleTerminalService _terminal;
+        public PointOfSaleController(PointOfSaleTerminalService terminal)
+        {
+            _terminal = terminal;
+        }
+
+        [HttpGet(nameof(Shopping))]
+        public IActionResult Shopping()
+        {
+            var purchaseId = _terminal.StartShopping();
+            var response = new PurchaseInfo()
+            {
+                PurchaseId = purchaseId,
+                Href = HttpContext.Request.Path,
+                RouteName = nameof(Shopping),
+                Method = Link.GetMethod,
+                Scan = new Link()
+                {
+                    Method = Link.GetMethod,
+                    Href = HttpContext.Request.PathBase + "/api/PointOfSale/" + nameof(Scan) + "/" + purchaseId + "/productCode", 
+                    RouteName = nameof(Scan)
+                }
+            };
+            return Ok(response);
+        }
+
+        //made method "HttpGet" to make it possible to execute from the browser
+        [HttpGet(nameof(Scan) + "/{purchaseId}/{productCode}")]
+        public IActionResult Scan(int purchaseId, string productCode)
+        {
+            _terminal.StartShopping(purchaseId);
+            _terminal.Scan(productCode);
+            var response = new ScanInfo()
+            {
+                Href = HttpContext.Request.Path,
+                RouteName = nameof(Scan),
+                RouteValues = new { purchaseId, productCode },
+                Method = Link.PostMethod,
+                TotalPrice = new Link()
+                {
+                    Method = Link.GetMethod,
+                    Href = HttpContext.Request.PathBase + "/api/PointOfSale/" + nameof(TotalPrice) + "/" + purchaseId,
+                    RouteName = nameof(TotalPrice)
+                }
+            };
+            return Ok(response);
+        }
+
+        [HttpGet(nameof(TotalPrice) + "/{purchaseId}")]
+        public IActionResult TotalPrice(int purchaseId)
+        {
+            _terminal.StartShopping(purchaseId);
+            var totalPrice = _terminal.CalculateTotal();
+            var response = new TotalPriceInfo()
+            {
+                TotalPrice = totalPrice,
+                Href = HttpContext.Request.Path,
+                RouteName = nameof(TotalPrice),
+                RouteValues = new { purchaseId },
+                Method = Link.GetMethod
+            };
+            return Ok(response);
+        }
+    }
+}
