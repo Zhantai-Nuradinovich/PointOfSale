@@ -54,25 +54,27 @@ namespace PointOfSale.Service.Controllers
                 Method = Link.PostMethod,
                 TotalPrice = new Link()
                 {
-                    Method = Link.GetMethod,
-                    Href = HttpContext.Request.PathBase + "/api/PointOfSale/" + nameof(TotalPrice) + "/" + purchaseId,
-                    RouteName = nameof(TotalPrice)
+                    Method = Link.PostMethod,
+                    Href = HttpContext.Request.PathBase + "/api/PointOfSale/" + nameof(TotalPrice),
+                    RouteName = nameof(TotalPrice),
+                    RouteValues = new TotalPriceRequest() { PurchaseId = purchaseId } 
                 }
             };
             return Ok(response);
         }
 
-        [HttpGet(nameof(TotalPrice) + "/{purchaseId}")]
-        public IActionResult TotalPrice(int purchaseId)
+        [HttpPost(nameof(TotalPrice))]
+        public IActionResult TotalPrice([FromBody] TotalPriceRequest totalPriceRequest)
         {
-            _terminal.StartShopping(purchaseId);
+            _terminal.SetPricing(totalPriceRequest.Prices);
+            _terminal.StartShopping(totalPriceRequest.PurchaseId);
             var totalPrice = _terminal.CalculateTotal();
             var response = new TotalPriceInfo()
             {
                 TotalPrice = totalPrice,
                 Href = HttpContext.Request.Path,
                 RouteName = nameof(TotalPrice),
-                RouteValues = new { purchaseId },
+                RouteValues = totalPriceRequest,
                 Method = Link.GetMethod
             };
             return Ok(response);
