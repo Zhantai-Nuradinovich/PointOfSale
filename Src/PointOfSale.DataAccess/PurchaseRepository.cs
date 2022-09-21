@@ -14,22 +14,12 @@ namespace PointOfSale.DataAccess
     {
         private List<Purchase> _purchases;
 
-        private readonly IProductRepository _productRepository;
-        
-        private readonly IPriceRepository _priceRepository;
-
-        public PurchaseRepository(IProductRepository productRepository, IPriceRepository priceRepository)
-        {
-            _productRepository = productRepository;
-            _priceRepository = priceRepository;
-        }
-
         public List<Purchase> GetAll()
         {
             return _purchases ??= new List<Purchase>();
         }
 
-        public Purchase GetById(int id)
+        public Purchase GetByIdOrDefault(int id)
         {
             return GetAll().FirstOrDefault(x => x.Id == id);
         }
@@ -48,42 +38,15 @@ namespace PointOfSale.DataAccess
             return purchase.Id;
         }
 
-        public void AddProduct(int purchaseId, string productCode)
+        public void AddProduct(int purchaseId, Product product)
         {
-            var purchase = GetById(purchaseId);
-            var product = _productRepository.GetByCode(productCode);
+            var purchase = GetByIdOrDefault(purchaseId);
             if (product == null || purchase == null)
             {
-                throw new ArgumentException("Product code or PurchaseId was incorrect. Please try again");
+                throw new InvalidOperationException("Product code or PurchaseId was incorrect. Please try again");
             }
 
             purchase.Products.Add(product);
-        }
-
-        public double GetTotal(int purchaseId)
-        {
-            var purchase = GetById(purchaseId);
-            var prices = _priceRepository.GetAll();
-            var selectedProductsGrouped = purchase.Products.GroupBy(x => x.Code)
-                             .Select(x => (x.Key, x.Count()));
-
-            double totalPrice = 0;
-            foreach (var selectedProductAndCount in selectedProductsGrouped)
-            {
-                var selectedCount = selectedProductAndCount.Item2;
-                var productPrices = prices.Where(x => x.Product.Code == selectedProductAndCount.Key
-                                                   && x.Amount <= selectedCount)
-                                          .OrderByDescending(x => x.Amount);
-
-                foreach (var price in productPrices)
-                {
-                    totalPrice += (selectedCount / price.Amount) * price.PriceValue;
-                    selectedCount -= price.Amount;
-                }
-            }
-
-            purchase.TotalPrice = totalPrice;
-            return totalPrice;
         }
     }
 }

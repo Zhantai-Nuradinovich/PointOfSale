@@ -14,13 +14,19 @@ namespace PointOfSale.Tests
         private readonly IPurchaseRepository _purchaseRepository;
         public PurchaseRepositoryTests()
         {
-            var productRepo = new ProductRepository();
-            var priceRepo = new PriceRepository(productRepo);
-            _purchaseRepository = new PurchaseRepository(productRepo, priceRepo);
+            _purchaseRepository = new PurchaseRepository();
         }
 
         [Fact]
-        public void AddNewPurchase_AddFirstPurchase_Returns1()
+        public void GetAll_WithoudAddingNewPurchases_ReturnsEmptyList()
+        {
+            var purchases = _purchaseRepository.GetAll();
+
+            Assert.Empty(purchases);
+        }
+
+        [Fact]
+        public void AddPurchase_AddFirstPurchase_ReturnsPurchaseId()
         {
             var purchaseId = _purchaseRepository.Add();
 
@@ -30,9 +36,43 @@ namespace PointOfSale.Tests
         }
 
         [Fact]
-        public void AddProductToPurchase_nullInput_ThrowsArgumentException()
+        public void GetByIdOrDefault_CorrectId_ReturnsPurchase()
         {
-            Assert.Throws<ArgumentException>(() => _purchaseRepository.AddProduct(0, null));
+            var purchaseId = _purchaseRepository.Add();
+
+            var purchase = _purchaseRepository.GetByIdOrDefault(purchaseId);
+
+            Assert.NotNull(purchase);
+        }
+
+        [Fact]
+        public void GetByIdOrDefault_IncorrectId_ReturnsNull()
+        {
+            var purchase = _purchaseRepository.GetByIdOrDefault(0);
+
+            Assert.Null(purchase);
+        }
+        
+        [Fact]
+        public void AddProductToPurchase_AddDefaultProducts_Returns4ProductsInPurchase()
+        {
+            var productsCount = 4;
+            var purchaseId = _purchaseRepository.Add();
+            var products = new ProductRepository().GetAll();
+
+            foreach (var product in products)
+            {
+                _purchaseRepository.AddProduct(purchaseId, product);
+            }
+
+            var purchase = _purchaseRepository.GetByIdOrDefault(purchaseId);
+            Assert.Equal(productsCount, purchase.Products.Count);
+        }
+
+        [Fact]
+        public void AddProductToPurchase_nullInput_ThrowsInvalidOperationException()
+        {
+            Assert.Throws<InvalidOperationException>(() => _purchaseRepository.AddProduct(0, null));
         }
     }
 }

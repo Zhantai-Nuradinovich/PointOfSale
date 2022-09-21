@@ -33,8 +33,6 @@ namespace PointOfSale.Service
             });
 
             services.AddSingleton<IProductRepository, ProductRepository>();
-
-            services.AddSingleton<IPriceRepository, PriceRepository>();
             
             services.AddSingleton<IPurchaseRepository, PurchaseRepository>();
             

@@ -25,7 +25,7 @@ namespace PointOfSale.DataAccess
             };
         }
 
-        public Product GetByCode(string code)
+        public Product GetByCodeOrDefault(string code)
         {
             return GetAll().FirstOrDefault(x => x.Code == code);
         }

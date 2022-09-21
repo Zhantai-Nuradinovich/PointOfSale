@@ -7,6 +7,6 @@ namespace PointOfSale.DataAccess.Interfaces
 {
     public interface IProductRepository : IRepository<Product>
     {
-        Product GetByCode(string code);
+        Product GetByCodeOrDefault(string code);
     }
 }

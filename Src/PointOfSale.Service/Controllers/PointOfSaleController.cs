@@ -14,6 +14,7 @@ namespace PointOfSale.Service.Controllers
     public class PointOfSaleController : ControllerBase
     {
         private readonly IPointOfSaleTerminalService _terminal;
+
         public PointOfSaleController(IPointOfSaleTerminalService terminal)
         {
             _terminal = terminal;

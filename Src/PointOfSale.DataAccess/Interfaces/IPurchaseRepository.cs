@@ -7,9 +7,8 @@ namespace PointOfSale.DataAccess.Interfaces
 {
     public interface IPurchaseRepository : IRepository<Purchase>
     {
-        Purchase GetById(int id);
+        Purchase GetByIdOrDefault(int id);
         int Add();
-        void AddProduct(int purchaseId, string productCode);
-        double GetTotal(int purchaseId);
+        void AddProduct(int purchaseId, Product product);
     }
 }
