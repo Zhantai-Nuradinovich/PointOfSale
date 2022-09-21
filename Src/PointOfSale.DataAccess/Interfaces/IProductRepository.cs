@@ -5,8 +5,8 @@ using System.Text;
 
 namespace PointOfSale.DataAccess.Interfaces
 {
-    public interface IRepository<T>
+    public interface IProductRepository : IRepository<Product>
     {
-        List<T> GetAll();
+        Product GetByCode(string code);
     }
 }

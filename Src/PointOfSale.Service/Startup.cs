@@ -32,7 +32,12 @@ namespace PointOfSale.Service
                 x.Filters.Add(typeof(JsonExceptionFilter));
             });
 
-            services.AddSingleton<IRepository,DefaultRepository>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
+
+            services.AddSingleton<IPriceRepository, PriceRepository>();
+            
+            services.AddSingleton<IPurchaseRepository, PurchaseRepository>();
+            
             services.AddScoped<IPointOfSaleTerminalService, PointOfSaleTerminalService>();
         }
 

@@ -9,11 +9,12 @@ namespace PointOfSale.Tests
     public class PointOfSaleTerminalTests
     {
         private readonly PointOfSaleTerminalService _terminal;
-        private readonly IRepository _repository;
         public PointOfSaleTerminalTests()
         {
-            _repository = new DefaultRepository();
-            _terminal = new PointOfSaleTerminalService(_repository);
+            var productRepo = new ProductRepository();
+            var priceRepo = new PriceRepository(productRepo);
+            var purchaseRepo = new PurchaseRepository(productRepo, priceRepo);
+            _terminal = new PointOfSaleTerminalService(purchaseRepo);
             _terminal.StartShopping();
         }
 

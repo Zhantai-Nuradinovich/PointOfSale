@@ -5,8 +5,5 @@ using System.Text;
 
 namespace PointOfSale.DataAccess.Interfaces
 {
-    public interface IRepository<T>
-    {
-        List<T> GetAll();
-    }
+    public interface IPriceRepository : IRepository<Price> { }
 }
