@@ -8,5 +8,6 @@ namespace PointOfSale.DataAccess.Interfaces
     public interface IProductRepository : IRepository<Product>
     {
         Product GetByCodeOrDefault(string code);
+        void Add(string code);
     }
 }

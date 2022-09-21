@@ -41,5 +41,23 @@ namespace PointOfSale.Tests
 
             Assert.Null(product);
         }
+
+        [Fact]
+        public void Add_NewCode_CountOfProductsEquals5()
+        {
+            var productsCount = 4;
+
+            _productRepository.Add("E");
+            productsCount++;
+
+            var count = _productRepository.GetAll().Count;
+            Assert.Equal(productsCount, count);
+        }
+
+        [Fact]
+        public void Add_ExistingCode_ThrowsInvalidOperationException()
+        {
+            Assert.Throws<InvalidOperationException>(() => _productRepository.Add("A"));
+        }
     }
 }

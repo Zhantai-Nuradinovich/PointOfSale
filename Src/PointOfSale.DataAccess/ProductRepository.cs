@@ -8,7 +8,7 @@ using System.Text;
 namespace PointOfSale.DataAccess
 {
     /// <summary>
-    /// Mocked repository for 4 type of Products: A, B, C, D
+    /// Mocked repository with default 4 type of Products: A, B, C, D
     /// </summary>
     public class ProductRepository : IProductRepository
     {
@@ -28,6 +28,17 @@ namespace PointOfSale.DataAccess
         public Product GetByCodeOrDefault(string code)
         {
             return GetAll().FirstOrDefault(x => x.Code == code);
+        }
+
+        public void Add(string code)
+        {
+            var isExists = GetByCodeOrDefault(code) != null;
+            if (isExists)
+            {
+                throw new InvalidOperationException($"Product with the code:{code} is already exists");
+            }
+
+            GetAll().Add(new Product(code));
         }
     }
 }
